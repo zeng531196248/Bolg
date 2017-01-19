@@ -15,13 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class WebShowController {
 	@RequestMapping(value={"", "/"}, method= RequestMethod.GET)
 	public String toPageIndex(Model model,HttpServletRequest request ) {
-		
-		
-		
-		
-		
-		
-		
 		return "/beforepag/lw-index-nosidebar";
 	}
 }

@@ -25,7 +25,7 @@ public class User {
 	   	@Column(unique=true,nullable=false)//不能为空且唯一
 	    private String username;
 	    private String password;
-	    private Integer status;
+	    private Integer status;//0删除的用户，1.正常用户
 	    @Column(name="create_date")
 	    private Date createdate;
 	    /** 用户昵称 */
@@ -44,8 +44,20 @@ public class User {
 	    /**邮箱**/
 	    private String mail;
 	    
+	    /**盐**/
+	    private String salt="tbnb1.cn";
 	    
 	    
+		
+
+		public String getSalt() {
+			return salt;
+		}
+
+		public void setSalt(String salt) {
+			this.salt = salt;
+		}
+
 		public String getTouImage() {
 			return touImage;
 		}
