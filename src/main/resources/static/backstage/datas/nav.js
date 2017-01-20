@@ -6,7 +6,7 @@ var navs = [{
 		"id":"1",
 		"title": "写博客",
 		"icon": "fa-pencil",
-		"href": "button.html"
+		"href": "wblog.html"
 	}, {
 		"id":"2",
 		"title": "表单",

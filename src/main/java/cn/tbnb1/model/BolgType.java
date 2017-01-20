@@ -2,9 +2,11 @@ package cn.tbnb1.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * 
@@ -14,6 +16,8 @@ import javax.persistence.Id;
 * @date 2017年1月12日 上午10:36:18 
 *
  */
+@Entity
+@Table(name="t_bolgType")
 public class BolgType {
 
 	@Id

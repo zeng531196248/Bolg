@@ -5,7 +5,7 @@ var navs = [{
 	"children": [{
 		"title": "写博客",
 		"icon": "fa-pencil",
-		"href": "button.html"
+		"href": "wblog.html"
 	}, {
 		"title": "表单",
 		"icon": "&#xe63c;",
