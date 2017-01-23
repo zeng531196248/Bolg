@@ -9,9 +9,9 @@ var navs = [{
 		"href": "wblog.html"
 	}, {
 		"id":"2",
-		"title": "表单",
-		"icon": "&#xe63c;",
-		"href": "form.html"
+		"title": "添加博客类型",
+		"icon": "fa-plus",
+		"href": "addblogtype.html"
 	}, {
 		"id":"3",
 		"title": "表格",

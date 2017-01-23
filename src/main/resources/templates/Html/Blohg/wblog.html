@@ -35,7 +35,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">日志分类</label>
         <div class="layui-input-block">
-            <select name="bolgtype"  multiple="multiple" lay-verify="required">
+            <select name="bolgType"  multiple="multiple"  lay-verify="type" >
              	<option value=""></option>
                  <option th:each="s : ${ListBolgType}"                                        
                     th:value="${s.id}"
@@ -60,7 +60,7 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">编辑器</label>
         <div class="layui-input-block">
-       	<textarea name="content" style="width:90%;height:500px;visibility:hidden;"></textarea>
+       	<textarea id="content" name="content"  lay-verify="content" style="width:90%;height:500px;visibility:hidden;"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
@@ -74,7 +74,6 @@
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="plugins/layui/layui.js"></script>
 <script>
-
 var editor;
 KindEditor.ready(function(K) {
 	editor = K.create('textarea[name="content"]', {
@@ -98,39 +97,48 @@ KindEditor.ready(function(K) {
 			'anchor', 'link', 'unlink', '|', 'about']
 	});
 });
-
-
     layui.use(['form', 'layedit', 'laydate'], function(){
+    	var cont=editor.text();
         var form = layui.form()
                 ,layer = layui.layer
                 ,layedit = layui.layedit
                 ,laydate = layui.laydate;
-        
-        form.on('select(bolgtype)', function(data){
-        	if(data.value==''){
-        		 layer.alert("日志类别必选");
-        	}
-        	
-        });  
-        
-        
         //自定义验证规则
         form.verify({
+        	
+        	/*Bug 不能验证第三方的表单
+        	content:function(content){
+        		if(content==""||content==null){
+        			 return '不要忘记写日志的内容OoO';
+        		}
+        	}, */
+        	type:function(value){
+        		if(value==null ||value==''){
+        			 return '不要忘记选日志类型OoO';
+        		}
+        	},
            pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,content: function(value){
-                layedit.sync(editIndex);
-            }
+         
         });
         //监听提交
         form.on('submit(demo1)', function(data){
-        	
-        	
-        	
-        	
-        	 console.log( editor.text());
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
+        		 data.field.content=editor.text();
+    		$.ajax({
+				   type: "POST",
+				   url: "/backstage/writeblog",
+				   data: data.field,
+				   success: function(){
+					layer.msg('博客添加成功', {
+						  icon: 1,
+						  time: 2000 
+						}, function(){
+							 location.reload();//刷新页面
+						}); 
+				   },
+				   error: function(){
+					   layer.alert("添加博客失败！");
+				   }
+				});
             return false;
         });
     });

@@ -36,13 +36,33 @@ public class Blog {
 	 * 是否显示：0不显示，1显示;逻辑删除
 	 */
 	
-	private String isDisplay;
+	private String isDisplay="1";
 	
 	@Lob
 	private String zhaiyao;//摘要
+
 	
 	
+	private String privacy;//是不是私密的
 	
+	private  String recommend;//是不是推荐的
+	
+	
+	public String getPrivacy() {
+		return privacy;
+	}
+
+	public void setPrivacy(String privacy) {
+		this.privacy = privacy;
+	}
+
+	public String getRecommend() {
+		return recommend;
+	}
+
+	public void setRecommend(String recommend) {
+		this.recommend = recommend;
+	}
 
 	public String getZhaiyao() {
 		return zhaiyao;
@@ -124,12 +144,7 @@ public class Blog {
 		this.isDisplay = isDisplay;
 	}
 	
-	
-	
-	
-	
-	
-	
+	//摘要
 	
 	
 	
