@@ -34,11 +34,11 @@ var navs = [{
 		"href": "auxiliar.html"
 	}]
 }, {
-	"title": "组件",
+	"title": "日志管理",
 	"icon": "fa-cogs",
 	"spread": false,
 	"children": [{
-		"title": "Datatable",
+		"title": "日志列表",
 		"icon": "fa-table",
 		"href": "begtable.html"
 	}, {
@@ -51,11 +51,11 @@ var navs = [{
 		"href": "paging.html"
 	}]
 }, {
-	"title": "第三方组件",
-	"icon": "&#x1002;",
+	"title": "链接管理",
+	"icon": "fa-handshake-o",
 	"spread": false,
 	"children": [{
-		"title": "iCheck组件",
+		"title": "友情链接列表",
 		"icon": "fa-check-square-o",
 		"href": "icheck.html"
 	}]
