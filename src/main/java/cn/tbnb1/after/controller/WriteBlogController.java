@@ -15,11 +15,9 @@ import cn.tbnb1.model.User;
 
 @Controller
 public class WriteBlogController {
-
 	
 	@Autowired
 	BlogService blogService;
-	
 	
 	@PostMapping("backstage/writeblog")
 	public ResponseEntity<Void> writeBlog(HttpServletRequest request,Model model,Blog blog){

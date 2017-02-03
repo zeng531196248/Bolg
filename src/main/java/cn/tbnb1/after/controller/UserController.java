@@ -62,7 +62,7 @@ public class UserController {
 	ConfigTools configtools;
 	@GetMapping("backstage/wblog")
 	public String wblog(Model model){
-		Integer uid=1;
+		Integer uid=1;//TODO这里还没完善
 		List<BolgType> resBolgType = bolgTypeService.findBolgTypeByUid(uid);
 		model.addAttribute("ListBolgType", resBolgType);
 		return "Html/Blohg/wblog";
