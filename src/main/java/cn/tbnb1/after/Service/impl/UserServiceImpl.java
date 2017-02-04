@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import cn.tbnb1.after.Dao.UserDao;
 import cn.tbnb1.after.Service.UserService;
-import cn.tbnb1.model.BolgType;
 import cn.tbnb1.model.User;
 @Service
 public class UserServiceImpl implements UserService {

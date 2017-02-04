@@ -18,7 +18,7 @@
 <body>
 <div class="x-body">
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
-    <xblock><button class="layui-btn layui-btn-danger" id="deletAll"><i class="layui-icon">&#xe640;</i>批量删除</button><button class="layui-btn" onclick="blogType_add('添加博客','bolg-add.html','454','200')"><i class="layui-icon">&#xe608;</i>添加</button><span class="x-right" style="line-height:40px">共有数据：88 条</span></xblock>
+    <xblock><button class="layui-btn layui-btn-danger" id="deletAll"><i class="layui-icon">&#xe640;</i>批量删除</button><button class="layui-btn" onclick="blogType_add('添加博客','bolg-add.html','454','200')"><i class="layui-icon">&#xe608;</i>添加</button><span class="x-right" style="line-height:40px">共有数据：<strong style="color:red" th:text="${bolgTypesize}"></strong>&nbsp;条</span></xblock>
     <table class="layui-table">
         <thead>
         <tr>
@@ -56,7 +56,7 @@
             <td th:text="${#dates.format(bolgtype.updateTime, 'yyyy-MM-dd HH:mm:ss')}">
             </td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;" onclick="role_edit('编辑','role-edit.html','4','','510')"
+                <a title="编辑" href="javascript:;" onclick="role_edit('编辑','role-edit.html','4','454','200')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
@@ -98,10 +98,30 @@
             } else {
                 layer.confirm('确认要删除吗？', function () {
                     //捉到所有被选中的，发异步进行删除
-                    var str = "";
+                    var str = new Array();
                     $("input[name='checkbolgtype']:checked").each(function () {
-                        str += $(this).val() + ",";
+                       // str += $(this).val() + ",";
+		                    str.push($(this).val());
                     })
+                    var params = {"ids":str.join(),"_method":"delete"};
+                $.ajax({
+                	   type: "POST",
+    				   url: "/backstage/deletbatch",
+    				   data:params ,
+    				   success: function(){
+    		              //  layer.msg('已删除!',{icon:1,time:1000});
+    		                layer.msg('已删除', {
+    							  icon: 1,
+    							  time: 2000 
+    							}, function(){
+    								 location.reload();//刷新页面
+    							}); 
+    		                
+    				   },
+    				   error: function(){
+    					   layer.alert("服务器繁忙，稍后再试！");
+    				   }
+                });
                     console.log(str)
                     layer.msg('删除成功', {icon: 1});
                 });
@@ -119,12 +139,29 @@
     }
         /*删除*/
         function type_del(obj){
-        	 console.log(obj);
-        	 console.log($(obj).val());
             layer.confirm('确认要删除吗？',function(){
                 //发异步删除数据
-                $(obj).parents("tr").remove();
-                layer.msg('已删除!',{icon:1,time:1000});
+                var id=$(obj).attr("value");
+        	 console.log(id);
+        		var params = {"id":id,"_method":"delete"};
+                $.ajax({
+                	   type: "POST",
+    				   url: "/backstage/delettype",
+    				   data:params ,
+    				   success: function(){
+    					  /*  $(obj).parents("tr").remove();
+    		                layer.msg('已删除!',{icon:1,time:1000}); */
+    					   layer.msg('已删除', {
+ 							  icon: 1,
+ 							  time: 1000 
+ 							}, function(){
+ 								 location.reload();//刷新页面
+ 							}); 
+    				   },
+    				   error: function(){
+    					   layer.alert("服务器繁忙，稍后再试！");
+    				   }
+                });
             });
         }
 

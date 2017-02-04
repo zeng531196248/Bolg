@@ -28,7 +28,7 @@ public class BolgType {
 	
 	private String type;//博客类型
 	
-	private String isDisplay;//0/1
+	private String isDisplay;//0显示/1不现实
 	
 	private Date creatTime;
 	
