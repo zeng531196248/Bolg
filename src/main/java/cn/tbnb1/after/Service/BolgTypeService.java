@@ -12,6 +12,8 @@ public interface BolgTypeService {
 	public BolgType save(BolgType bolgType);
 
 	public BolgType findBolgTypeByUidAndId(Integer id, Integer id2);
+
+	public void updatetype(BolgType bolgType);
 		
 	
 }

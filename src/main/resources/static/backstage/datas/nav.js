@@ -40,7 +40,7 @@ var navs = [{
 	"children": [{
 		"title": "日志列表",
 		"icon": "fa-table",
-		"href": "begtable.html"
+		"href": "articlelist.html"
 	}, {
 		"title": "Navbar组件",
 		"icon": "fa-navicon",

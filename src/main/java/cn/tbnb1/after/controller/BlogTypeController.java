@@ -69,17 +69,27 @@ public class BlogTypeController {
 	}
 	
 	
-	@GetMapping("/backstage/bolg-eddit/{id}")
-	public String edditBolgTypePage(@PathVariable("id")Integer id,HttpServletRequest request,Model model){
+	@GetMapping("/backstage/bolgeddit")
+	public String edditBolgTypePage(@RequestParam(required=false)Integer id,HttpServletRequest request,Model model){
 		User user=(User)request.getSession().getAttribute("loginUser");
 		BolgType resbolgType = bolgTypeService.findBolgTypeByUidAndId(user.getId(),id);
 		model.addAttribute("bolgType", resbolgType);
-		return "Html/Blohg/bolg-eddit";
+		return "Html/Blohg/bolgeddit";
 	}
 	
-	
-	
-	
+	@PostMapping("/backstage/updatetype")
+	public  ResponseEntity<Void>updatetype(BolgType bolgType,HttpServletRequest request){
+		try {
+			bolgType.setUpdateTime(new Date());
+			User user=(User)request.getSession().getAttribute("loginUser");
+			bolgType.setUid(user.getId());
+			bolgTypeService.updatetype(bolgType);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();//500
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).build();//201
+	}
 	
 	
 	
@@ -147,14 +157,15 @@ public class BlogTypeController {
 	@PostMapping("/backstage/addtype")
 	public  ResponseEntity<Void>addtype(BolgType bolgType,HttpServletRequest request){
 		try {
-			bolgType.setId(null);
+		//	bolgType.setId(null);
 			bolgType.setUpdateTime(new Date());
 			bolgType.setIsDisplay("0");
 			User user=(User)request.getSession().getAttribute("loginUser");
 			bolgType.setUid(user.getId());
-			bolgType.setCreatTime(bolgType.getUpdateTime());
+			if(bolgType.getId()==null){
+				bolgType.setCreatTime(bolgType.getUpdateTime());
+			}
 			BolgType restype = bolgTypeService.save(bolgType);
-			System.out.println(restype);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();//500

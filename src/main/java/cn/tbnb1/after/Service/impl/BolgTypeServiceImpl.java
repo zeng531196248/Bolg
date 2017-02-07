@@ -37,4 +37,11 @@ public class BolgTypeServiceImpl implements BolgTypeService{
 		return bolgTypeDao.findBolgTypeByUidAndId(uid,id);
 	}
 
+	@Override
+	public void updatetype(BolgType bolgType) {
+		BolgType resbolgType=bolgTypeDao.findBolgTypeByUidAndId(bolgType.getUid(),bolgType.getId());
+		resbolgType.setType(bolgType.getType());
+		resbolgType.setUpdateTime(bolgType.getUpdateTime());
+	}
+
 }

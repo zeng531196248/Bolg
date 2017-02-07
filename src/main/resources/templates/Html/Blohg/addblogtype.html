@@ -56,7 +56,7 @@
             <td th:text="${#dates.format(bolgtype.updateTime, 'yyyy-MM-dd HH:mm:ss')}">
             </td>
             <td class="td-manage">
-                <a title="编辑" href="javascript:;" onclick="role_edit('编辑','role-edit.html','4','454','200')"
+                <a title="编辑" id="edit" href="javascript:;" th:value="${bolgtype.id}" onclick="role_edit('编辑','bolgeddit.html',this,'454','150')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
@@ -129,8 +129,8 @@
         });
     });
     //编辑
-    function role_edit (title,url,id,w,h) {
-        x_admin_show(title,url,w,h);
+    function role_edit (title,url,obj,w,h) {
+    	bolgtype_eddit(title,url,w,h,obj);
     }
 
     /*添加*/
