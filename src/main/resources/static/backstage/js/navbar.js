@@ -1,4 +1,3 @@
-/** navbar.js By Beginner Emain:zheng_jinfan@126.com HomePage:http://www.zhengjinfan.cn */
 layui.define(['element', 'common'], function(exports) {
 	"use strict";
 	var $ = layui.jquery,
@@ -202,7 +201,7 @@ layui.define(['element', 'common'], function(exports) {
 				ulHtml += '<a href="javascript:;">';
 				if(data[i].icon !== undefined && data[i].icon !== '') {
 					if(data[i].icon.indexOf('fa-') !== -1) {
-						ulHtml += '<i class="fa ' + data[i].icon + '" aria-hidden="true" data-icon="' + data[i].icon + '"  ></i>';
+						ulHtml += '<i class="fa ' + data[i].icon + ' fa-lg" aria-hidden="true" data-icon="' + data[i].icon + '"  ></i>';
 					} else {
 						ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
 					}

@@ -1,6 +1,7 @@
 layui.use(['layer', 'datatable', 'datatableButton', 'datatableFlash', 'datatableHtml5', 'datatablePrint', 'datatableColVis', 'datatableSelect'], function() {
   var $ = layui.jquery,
-    layer = layui.layer;
+    layer = layui.layer,
+     element = layui.element();
   // oSort是排序类型数组, 'chinese-asc'是自己定义的类型的排序(*-asc || *-desc)名称
   // 插件应该会根据表格中的内容的类型(string, number, chinese)进行比较排序，
   // 如果以chinese类型来排序则用oSort['chinese-asc']和oSort['chinese-desc']的方法
@@ -10,9 +11,9 @@ layui.use(['layer', 'datatable', 'datatableButton', 'datatableFlash', 'datatable
     return x.localeCompare(y);
   };
 
-  $.fn.dataTableExt.oSort['chinese-desc'] = function(x, y) {
+ /* $.fn.dataTableExt.oSort['chinese-desc'] = function(x, y) {
     return y.localeCompare(x);
-  };
+  };*/
 
   // aTypes是插件存放表格内容类型的数组
   // reg赋值的正则表达式，用来判断是否是中文字符
@@ -118,10 +119,10 @@ layui.use(['layer', 'datatable', 'datatableButton', 'datatableFlash', 'datatable
           "sDefaultContent": "", //此列默认值为""，以防数据中没有此值，DataTables加载数据的时候报错  
         }, {
           "data": function(obj) {
-        	  if(obj.isDisplay=='0') {
-              return '<span title="暂停发布" class="handle-btn handle-btn-stop"><i class="linyer icon-zanting"></i></span><span title="编辑" class="handle-btn handle-btn-edit"><i class="linyer icon-edit"></i></span><span title="删除" class="handle-btn handle-btn-delect"><i class="linyer icon-delect"></i></span>';
+        	  if(obj.isDisplay=='1') {
+              return '<span  value='+obj.id+'  title="暂停发布" class="handle-btn handle-btn-stop"><i class="linyer icon-zanting"></i></span><span title="编辑" value='+obj.id+' class="handle-btn handle-btn-edit"><i class="linyer icon-edit"></i></span><span  value='+obj.id+'  title="删除" class="handle-btn handle-btn-delect"><i class="linyer icon-delect"></i></span>';
             } else {
-              return '<span title="正常发布" class="handle-btn handle-btn-run"><i class="linyer icon-qiyong"></i></span><span title="编辑" class="handle-btn handle-btn-edit"><i class="linyer icon-edit"></i></span><span title="删除" class="handle-btn handle-btn-delect"><i class="linyer icon-delect"></i></span>';
+              return '<span   value='+obj.id+' title="正常发布"   class="handle-btn handle-btn-run"><i class="linyer icon-qiyong"></i></span><span title="编辑"  value='+obj.id+'class="handle-btn handle-btn-edit"><i class="linyer icon-edit"></i></span><span value='+obj.id+' title="删除" class="handle-btn handle-btn-delect"><i class="linyer icon-delect"></i></span>';
             }
           },
           "className": "td-handle",
@@ -234,15 +235,17 @@ layui.use(['layer', 'datatable', 'datatableButton', 'datatableFlash', 'datatable
   //文章--查看
   $('.btn-showarticle').on('click', function() {
     var username = $(this).html();
-    var href = 'article-show.html';
+    var href = 'bolg-add.html';
     layer_show(username, href, '', '360', '400');
   });
-  /*文章-添加*/
+/*  文章-添加
   $('#btn-adduser').on('click', function() {
     var username = $(this).html();
-    var href = 'article-add.html';
-    layer_show(username, href, '', '800', '600');
-  });
+    var href = 'wblog.html';
+    layer_show(username, href, '', '800','600');
+
+    
+  });*/
   /*文章--停用*/
   $('.table-sort').on('click', '.handle-btn-stop', function() {
     var obj = $(this);
@@ -250,14 +253,26 @@ layui.use(['layer', 'datatable', 'datatableButton', 'datatableFlash', 'datatable
       icon: 0,
       title: '警告',
       shade: false
-    }, function(index) {
+    }, function() {
       $(obj).parents("tr").find(".td-handle").prepend('<span class="handle-btn handle-btn-run" title="开始发布"><i class="linyer icon-qiyong"></i></span>');
-      $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">暂停发布</span>');
-      $(obj).remove();
-      layer.msg('已暂停发布!', {
-        icon: 5,
-        time: 1000
+      var  id=obj.attr("value");
+      var param={"id":id,"state":"0"}
+      $.ajax({
+    	  type:"POST",
+    	  data:param,
+    	  url:"/backstage/updataState",
+    	  success:function(){
+    		  $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">暂停发布</span>');
+    	      $(obj).remove();
+    	      layer.msg('已暂停发布!', {
+    	        icon: 5,
+    	        time: 1000
+    	      });
+    	  }, error: function(){
+			   layer.alert("服务器繁忙，稍后再试！");
+		   }
       });
+     
     });
   });
   /*文章--启用*/
@@ -267,13 +282,26 @@ layui.use(['layer', 'datatable', 'datatableButton', 'datatableFlash', 'datatable
       icon: 0,
       title: '警告',
       shade: false
-    }, function(index) {
+    }, function() {
       $(obj).parents("tr").find(".td-handle").prepend('<span class="handle-btn handle-btn-stop" title="暂停发布"><i class="linyer icon-zanting"></i></span>');
-      $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">正常发布</span>');
-      $(obj).remove();
-      layer.msg('已开始发布!', {
-        icon: 6,
-        time: 1000
+      var  id=obj.attr("value");
+      var param={"id":id,"state":"1"}
+      $.ajax({
+    	  type:"POST",
+    	  data:param,
+    	  url:"/backstage/updataState",
+    	  success:function(){
+    		  $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">正常发布</span>');
+    	      $(obj).remove();
+    	      layer.msg('已开始发布!', {
+    	          icon: 6,
+    	          time: 1000
+    	        } ,function(){
+					 location.reload();//刷新页面
+				});
+    	  }, error: function(){
+			   layer.alert("服务器繁忙，稍后再试！");
+		   }
       });
     });
   });
@@ -289,18 +317,34 @@ layui.use(['layer', 'datatable', 'datatableButton', 'datatableFlash', 'datatable
       icon: 0,
       title: '警告',
       shade: false
-    }, function(index) {
-      $(obj).parents("tr").remove(); //删除方法
-      layer.msg('已删除!', {
-        icon: 1,
-        time: 1000
-      });
+    }, function() {
+    var id=obj.attr("value");
+    var params = {"id":id,"_method":"delete"};
+    $.ajax({
+ 	   type: "POST",
+		   url: "/backstage/deletOne",
+		   data:params ,
+		   success: function(){
+              layer.msg('已删除', {
+					  icon: 1,
+					  time: 2000 
+					}, function(){
+						 location.reload();//刷新页面
+					}); 
+              
+		   },
+		   error: function(){
+			   layer.alert("服务器繁忙，稍后再试！");
+		   }
+ });
+    
+    
+    
     });
   });
   //批量删除
   $('#btn-delect-all').on('click', function() {
     //这是相对应的那一行数据移出
-    console.log($(".table-sort tbody :checkbox:checked").length);
     if($(".table-sort tbody :checkbox:checked").length == 0) {
       layer.msg('请选择需要删除的数据！', {
         icon: 0
@@ -310,12 +354,34 @@ layui.use(['layer', 'datatable', 'datatableButton', 'datatableFlash', 'datatable
         icon: 0,
         title: '警告',
         shade: false
-      }, function(index) {
-        $(".table-sort tbody :checkbox:checked").parents('tr').remove(); //删除方法
-        layer.msg('已删除!', {
-          icon: 1,
-          time: 1000
-        });
+      }, function() {
+    	   //捉到所有被选中的，发异步进行删除
+          var str = new Array();
+          $(".table-sort tbody :checkbox:checked").each(function () {
+                  str.push($(this).parent().next().text());
+          });
+        //  console.log( $(".table-sort tbody :checkbox:checked").parent().next().text());
+          console.log(str);
+          var params = {"ids":str.join(),"_method":"delete"};
+          $.ajax({
+       	   type: "POST",
+			   url: "/backstage/deletAll",
+			   data:params ,
+			   success: function(){
+	                layer.msg('已删除', {
+						  icon: 1,
+						  time: 2000 
+						}, function(){
+							 location.reload();//刷新页面
+						 //   $(".table-sort tbody :checkbox:checked").parents('tr').remove(); //删除方法
+						}); 
+	                
+			   },
+			   error: function(){
+				   layer.alert("服务器繁忙，稍后再试！");
+			   }
+       });
+    	  
       });
     }
   });

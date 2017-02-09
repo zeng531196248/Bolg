@@ -18,5 +18,14 @@ public class BolgServiceImpl implements BolgService {
 	public List<Blog> findBlogByUid(Integer uid) {
 		return bolgdao.findBlogByUid(uid);
 	}
+	@Override
+	public void deletBolg(Integer id, Integer uid) {
+		bolgdao.deleteBlogByIdAndUid(id,uid);
+	}
+	@Override
+	public void updata(Integer uid, Integer id,String state) {
+		bolgdao.updata(uid,id,state);
+		
+	}
 
 }

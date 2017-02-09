@@ -60,6 +60,60 @@ var navs = [{
 		"href": "icheck.html"
 	}]
 }, {
+	"title": "轮播图管理",
+	"icon": "fa-picture-o",
+	"spread": false,
+	"children": [{
+		"title": "轮播列表",
+		"icon": "fa-file-image-o  ",
+		"href": "bigpic.html"
+	}]
+}, {
+	"title": "权限管理",
+	"icon": "fa-users",
+	"spread": false,
+	"children": [{
+		"title": "权限列表",
+		"icon": "fa-user-circle-o  ",
+		"href": "bigpic.html"
+	}]
+}, {
+	"title": "个人中心",
+	"icon": "fa-user-circle-o",
+	"spread": false,
+	"children": [{
+		"title": "个人管理",
+		"icon": "fa-user-circle-o  ",
+		"href": "bigpic.html"
+	}]
+}, {
+	"title": "视频管理",
+	"icon": "fa-film",
+	"spread": false,
+	"children": [{
+		"title": "视频修改",
+		"icon": "fa-film  ",
+		"href": "bigpic.html"
+	}]
+}, {
+	"title": "网站统计",
+	"icon": "fa-line-chart",
+	"spread": false,
+	"children": [{
+		"title": "访问量统计",
+		"icon": "fa-line-chart  ",
+		"href": "bigpic.html"
+	}]
+}, {
+	"title": "系统管理",
+	"icon": "fa-desktop",
+	"spread": false,
+	"children": [{
+		"title": "性能视图",
+		"icon": "fa-line-chart  ",
+		"href": "bigpic.html"
+	}]
+},{
 	"title": "地址本",
 	"icon": "fa-address-book",
 	"href": "",
