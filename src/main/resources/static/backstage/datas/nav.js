@@ -111,6 +111,15 @@ var navs = [{
 	"children": [{
 		"title": "性能视图",
 		"icon": "fa-line-chart  ",
+		"href": "system.html"
+	}]
+}, {
+	"title": "API",
+	"icon": "fa-file-word-o",
+	"spread": false,
+	"children": [{
+		"title": "API接口文档",
+		"icon": "fa-bars ",
 		"href": "bigpic.html"
 	}]
 },{

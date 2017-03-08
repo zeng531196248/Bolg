@@ -16,6 +16,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="t_bigpage")
 public class Page {
+	public void setUrlname(String urlname) {
+		this.urlname = urlname;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private	Integer id;
@@ -27,17 +31,25 @@ public class Page {
 	/**
 	 * 大图显示的顺序
 	 */
-	private Integer orderNo;
+	private Integer orderNo=1;//默认显示
 	/**
 	 * 是否显示：0不显示，1显示
 	 */
 	
-	private String isDisplay;
+	private String isDisplay="1";
 	
 	/**
 	 * 谁的大图
 	 */
 	private Integer uid;
+
+	private String urlname;
+	
+	public String getUrlname() {
+		return urlname;
+	}
+
+
 
 	public Integer getId() {
 		return id;

@@ -35,9 +35,7 @@ function x_admin_show(title,url,w,h){
 
 
 
-function bolgtype_eddit(title,url,w,h,obj){
-	  var id=$(obj).attr("value");
-	 console.log(id);
+function bolgtype_eddit(title,url,w,h,id){
 	if (title == null || title == '') {
 		title=false;
 	};

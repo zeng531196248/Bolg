@@ -58,36 +58,39 @@
         </tr>
         </thead>
         <tbody id="x-img">
-        <tr>
+         <tr th:each="page,iterStat:${pageList}">
             <td>
-                <input type="checkbox" value="1" name=""/>
+                <input type="checkbox" th:value="${page.id}"  name=""/>
+            </td>
+            <td  th:text="${page.id}">
+                
             </td>
             <td>
-                1
+                <img   th:src="@{${page.url}}" width="64"  height="64" alt=""/>点击图片试试
             </td>
-            <td>
-                <img  src="./images/banner.png" width="200" alt=""/>点击图片试试
+            <td th:text="${page.url}">
+                
             </td>
-            <td >
-                http://www.xuebingsi.com
+            <td th:text="${page.urlname}">
+             
             </td>
-            <td >
-                十月活动轮播
-            </td>
-            <td class="td-status">
-                            <span class="layui-btn layui-btn-normal layui-btn-mini">
+            <td class="td-status" th:switch="${page.isDisplay}">
+                            <span class="layui-btn layui-btn-normal layui-btn-mini" th:case="'1'">
                                 已显示
+                            </span>
+                                           <span class="layui-btn layui-btn-normal layui-btn-mini" th:case="'0'">
+                                不显示
                             </span>
             </td>
             <td class="td-manage">
-                <a style="text-decoration:none" onclick="banner_stop(this,'10001')" href="javascript:;" title="不显示">
+                <a style="text-decoration:none"   th:value="${page.id}" onclick="banner_stop(this)" href="javascript:;" title="不显示">
                     <i class="layui-icon">&#xe601;</i>
                 </a>
-                <a title="编辑" href="javascript:;" onclick="banner_edit('编辑','banner-edit.html','4','','510')"
+                <a title="编辑" href="javascript:;" th:value="${page.id}" onclick="banner_edit('编辑','banner-add.html',this,'','510')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
-                <a title="删除" href="javascript:;" onclick="banner_del(this,'1')"
+                <a title="删除" href="javascript:;"  th:value="${page.id}" onclick="banner_del(this)"
                    style="text-decoration:none">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
@@ -116,6 +119,21 @@
             });
         });
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     });
 
     //批量删除提交
@@ -130,47 +148,87 @@
         x_admin_show(title,url,w,h);
     }
     /*停用*/
-    function banner_stop(obj,id){
-        layer.confirm('确认不显示吗？',function(index){
+    function banner_stop(obj){
+    	var id=$(obj).attr("value");
+    	var params = {"id":id};
+        layer.confirm('确认不显示吗？',function(){
             //发异步把用户状态进行更改
-            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="banner_start(this,id)" href="javascript:;" title="显示"><i class="layui-icon">&#xe62f;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-disabled layui-btn-mini">不显示</span>');
-            $(obj).remove();
-            layer.msg('不显示!',{icon: 5,time:1000});
+            $.ajax({
+            	type: "post",
+				   url: "/backstage/updatePageState",
+				   data: params,
+				   success: function(){
+					layer.msg('更新状态成功', {
+						  icon: 1,
+						  time: 2000 
+						}, function(){
+							   //发异步删除数据
+							   $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="banner_start(this,id)" href="javascript:;" title="显示"><i class="layui-icon">&#xe62f;</i></a>');
+					            $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-disabled layui-btn-mini">不显示</span>');
+					            $(obj).remove();
+					            layer.msg('不显示!',{icon: 5,time:1000});
+						}); 
+				   },
+				   error: function(){
+					   layer.alert("更新状态失败！");
+				   }
+				});
+            	
+            });
+            
+         
         });
     }
 
+    
+    
+    
+    
+    
     /*启用*/
     function banner_start(obj,id){
         layer.confirm('确认要显示吗？',function(index){
             //发异步把用户状态进行更改
-            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="banner_stop(this,id)" href="javascript:;" title="不显示"><i class="layui-icon">&#xe601;</i></a>');
+            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="banner_stop(this)" href="javascript:;" title="不显示"><i class="layui-icon">&#xe601;</i></a>');
             $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-normal layui-btn-mini">已显示</span>');
             $(obj).remove();
             layer.msg('已显示!',{icon: 6,time:1000});
         });
     }
     // 编辑
-    function banner_edit (title,url,id,w,h) {
-        x_admin_show(title,url,w,h);
+    function banner_edit (title,url,obj,w,h) {
+    	 var id=$(obj).attr("value");
+    	bolgtype_eddit(title,url,w,h,id);
     }
+    
+    
     /*删除*/
-    function banner_del(obj,id){
-        layer.confirm('确认要删除吗？',function(index){
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!',{icon:1,time:1000});
+    function banner_del(obj){
+    	  var obj = $(obj);
+    	 var id=obj.attr("value");
+    	 console.log(obj)
+        layer.confirm('确认要删除吗？',function(){
+        	var params = {"id":id,"_method":"delete"};
+            $.ajax({
+				   type: "post",
+				   url: "/backstage/deletbigpic",
+				   data: params,
+				   success: function(){
+					layer.msg('删除成功', {
+						  icon: 1,
+						  time: 2000 
+						}, function(){
+							 location.reload();//刷新页面
+							   //发异步删除数据
+					            $(obj).parents("tr").remove();
+						}); 
+				   },
+				   error: function(){
+					   layer.alert("添加失败！");
+				   }
+				});
         });
     }
-</script>
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
 </script>
 </body>
 </html>

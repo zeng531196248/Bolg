@@ -44,7 +44,6 @@ public class BolgListController {
 		return"Html/Blohg/articlelist" ;
 	}
 	
-	
 	@GetMapping("/backstage/showarticlelist")
 	@ResponseBody
 	public Data showarticlelist(HttpServletRequest request){
